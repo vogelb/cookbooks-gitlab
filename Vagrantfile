@@ -68,4 +68,6 @@ Vagrant::Config.run do |config|
     chef.add_recipe "gitlab"
   end
 
+
+
 end
