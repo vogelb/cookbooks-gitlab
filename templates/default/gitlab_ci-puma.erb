@@ -5,9 +5,9 @@
 
 # uncomment and customize to run in non-root path
 # note that config/gitlab.yml web path should also be changed
-# ENV['RAILS_RELATIVE_URL_ROOT'] = "/gitlab"
+ENV['RAILS_RELATIVE_URL_ROOT'] = "/gitlab-ci"
 
-application_path = '/home/git/gitlab'
+application_path = '<%= node['gitlab_ci']['home'] %>'
 
 # The directory to operate out of.
 #

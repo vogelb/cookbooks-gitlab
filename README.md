@@ -1,9 +1,12 @@
 gitlab Cookbook
 ===============
-TODO: Enter the cookbook description here.
+Chef Cookbook for installation of GitLab starting version 5.
 
-e.g.
-This cookbook makes your favorite breakfast sandwhich.
+Status: Currently under heavy construction!
+
+Default admin credentials:
+User – admin@local.host
+Password – 5iveL!fe
 
 Requirements
 ------------
@@ -65,4 +68,4 @@ e.g.
 
 License and Authors
 -------------------
-Authors: TODO: List authors
+Authors: Benno Vogel, Torben Knerr

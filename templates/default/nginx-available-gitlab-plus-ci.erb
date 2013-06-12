@@ -6,20 +6,34 @@ upstream gitlab {
   server unix:<%= node['gitlab']['home'] %>/tmp/sockets/gitlab.socket;
 }
 
+upstream gitlab_ci {
+  server unix:<%= node['gitlab_ci']['home'] %>/tmp/sockets/gitlab.socket;
+}
+
 server {
   listen <%= node['ipaddress'] %>:80;         # e.g., listen 192.168.1.1:80; In most cases *:80 is a good idea
   server_name gitlab;     # e.g., server_name source.example.com;
   root <%= node['gitlab']['home'] %>/public;
-  keepalive_timeout 120;
 
   # individual nginx logs for this gitlab vhost
   access_log  /var/log/nginx/gitlab_access.log;
   error_log   /var/log/nginx/gitlab_error.log;
 
+  location / {
+    # serve static files from defined root folder;.
+    try_files $uri $uri/index.html $uri.html;
+  }
+
   location /gitlab {
     # serve static files from defined root folder;.
     # @gitlab is a named location for the upstream fallback, see below
     try_files $uri $uri/index.html $uri.html @gitlab;
+  }
+
+  location /gitlab-ci {
+    # serve static files from defined root folder;.
+    # @gitlab-ci is a named location for the upstream fallback, see below
+    try_files $uri $uri/index.html $uri.html @gitlab_ci;
   }
 
   # if a file, which is not found in the root folder is requested,
@@ -36,4 +50,15 @@ server {
     proxy_pass http://gitlab;
   }
 
+  location @gitlab_ci {
+    proxy_read_timeout 300; # https://github.com/gitlabhq/gitlabhq/issues/694
+    proxy_connect_timeout 300; # https://github.com/gitlabhq/gitlabhq/issues/694
+    proxy_redirect     off;
+
+    proxy_set_header   X-Forwarded-Proto $scheme;
+    proxy_set_header   Host              $http_host;
+    proxy_set_header   X-Real-IP         $remote_addr;
+
+    proxy_pass http://gitlab_ci;
+  }
 }
