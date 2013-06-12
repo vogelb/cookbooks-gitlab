@@ -5,7 +5,9 @@ Chef Cookbook for installation of GitLab starting version 5.
 Status: Currently under heavy construction!
 
 Default admin credentials:
+
 User – admin@local.host
+
 Password – 5iveL!fe
 
 Requirements
