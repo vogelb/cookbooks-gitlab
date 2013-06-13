@@ -1,6 +1,6 @@
 gitlab Cookbook
 ===============
-Chef Cookbook for installation of GitLab starting version 5.
+Chef Cookbook for installation of GitLab and GitLab CI.
 
 Status: Currently under heavy construction!
 
@@ -13,11 +13,10 @@ Requirements
 ------------
 
 #### recipies
-*  apt, 2.0.0
-* rvm, 0.9.0
+* apt
+* rvm
 * mysql
 * database
-* vagrant-ohai
 
 Attributes
 ----------
@@ -34,12 +33,6 @@ Attributes
     <td><tt>['gitlab']['user']</tt></td>
     <td>String</td>
     <td>The user to run gitlab</td>
-    <td><tt>gitlab</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['gitlab']['password']</tt></td>
-    <td>String</td>
-    <td>The password for the gitlab user</td>
     <td><tt>gitlab</tt></td>
   </tr>
   <tr>
@@ -62,12 +55,6 @@ Attributes
     <td><tt>['gitlab_ci']['user']</tt></td>
     <td>String</td>
     <td>The user to run gitlab ci</td>
-    <td><tt>gitlab</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['gitlab_ci']['password']</tt></td>
-    <td>String</td>
-    <td>The password for the gitlab ci user</td>
     <td><tt>gitlab</tt></td>
   </tr>
   <tr>

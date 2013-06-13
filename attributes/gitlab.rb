@@ -1,8 +1,7 @@
 # Attributes for the gitlab recipe
 
 # Gitlab user and home
-node.default['gitlab']['user'] = 'gitlab'
-node.default['gitlab']['password'] = 'gitlab'
+node.default['gitlab']['user'] = 'git'
 node.default['gitlab']['home'] = "/home/#{node['gitlab']['user']}/gitlab"
 
 # Dependencies

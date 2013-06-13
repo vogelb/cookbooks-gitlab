@@ -2,7 +2,6 @@
 
 # GitLab CI user and home
 node.default['gitlab_ci']['user'] = 'git'
-node.default['gitlab_ci']['password'] = 'gitlab'
 node.default['gitlab_ci']['home'] = "/home/#{node['gitlab_ci']['user']}/gitlab_ci"
 
 # Dependencies

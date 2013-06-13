@@ -6,8 +6,16 @@
 #
 # All rights reserved - Do Not Redistribute
 
-include_recipe "apt"
-include_recipe "vagrant-ohai"
+# Create git user
+user node['gitlab']['user'] do
+  comment 'GitLab'
+  home "/home/#{node['gitlab']['user']}"
+  shell '/bin/false'
+  supports :manage_home => true, :non_unique => false
+  action :create
+end
+
+include_recipe "gitlab::gitlab-commons"
 
 # Install packages
 node['gitlab']['packages'].each do |base_package|
@@ -16,9 +24,7 @@ node['gitlab']['packages'].each do |base_package|
   end
 end
 
-include_recipe "gitlab::gitlab-commons"
-
-# Create mysql user vagrant
+# Create mysql user
 mysql_database_user node['mysql']['gitlab_user'] do
   connection node['mysql']['connection']
   password node['mysql']['gitlab_password']
@@ -33,7 +39,7 @@ end
   end
 end
 
-# Grant all privelages on all databases/tables from localhost to vagrant
+# Grant all privelages on all databases/tables from localhost to mysql user
 mysql_database_user node['mysql']['gitlab_user'] do
   connection node['mysql']['connection']
   password node['mysql']['gitlab_password']
@@ -43,13 +49,13 @@ end
 # Checkout gitlab-shell
 git 'gitlab-shell' do
   user node['gitlab']['user']
-  destination "/home/git/gitlab-shell"
+  destination "/home/#{node['gitlab']['user']}/gitlab-shell"
   repository "https://github.com/gitlabhq/gitlab-shell.git"
   reference "v1.4.0"
   action :checkout
 end
 
-template "/home/git/gitlab-shell/config.yml" do
+template "/home/#{node['gitlab']['user']}/gitlab-shell/config.yml" do
   source "gitlab-shell-config.yml.erb"
   owner node['gitlab']['user']
   mode 00644
@@ -128,7 +134,7 @@ end
 # chmod +x /etc/init.d/gitlab
 ruby_block "Copy init script" do
   block do
-    ::FileUtils.cp "/home/git/gitlab/lib/support/init.d/gitlab", "/etc/init.d/gitlab"
+    ::FileUtils.cp "#{node['gitlab']['home']}/lib/support/init.d/gitlab", "/etc/init.d/gitlab"
     ::FileUtils.chmod "u+x", "/etc/init.d/gitlab"
   end
   not_if { File.exist?("/etc/init.d/gitlab")}

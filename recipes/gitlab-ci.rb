@@ -6,8 +6,16 @@
 #
 # All rights reserved - Do Not Redistribute
 
-include_recipe "apt"
-include_recipe "vagrant-ohai"
+# Create git user
+user node['gitlab_ci']['user'] do
+  comment 'GitLab'
+  home "/home/#{node['gitlab_ci']['user']}"
+  shell '/bin/false'
+  supports :manage_home => true, :non_unique => false
+  action :create
+end
+
+include_recipe "gitlab::gitlab-commons"
 
 # Install packages
 node['gitlab_ci']['gitlab_ci_packages'].each do |base_package|
@@ -15,8 +23,6 @@ node['gitlab_ci']['gitlab_ci_packages'].each do |base_package|
     action :install
   end
 end
-
-include_recipe "gitlab::gitlab-commons"
 
 # Create databases and users
 %w{ gitlab_ci_production }.each do |db|
@@ -67,8 +73,7 @@ end
 execute "Install Dependencies" do
   user node['gitlab_ci']['user']
   cwd node['gitlab_ci']['home']
-  # command "bundle install --deployment --without development test"
-  command "bundle install --deployment --without development test"
+  command "bundle install --deployment --without development test postgres"
   action :run
 end
 

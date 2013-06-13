@@ -5,8 +5,15 @@
 # Copyright 2013, YOUR_COMPANY_NAME
 #
 # All rights reserved - Do Not Redistribute
+
+# Install nginx
+package "nginx" do
+  options "-y"
+  action :install
+end
+
 template "#{node['gitlab']['home']}/lib/support/nginx/gitlab" do
-  source node['ngingx']['config']
+  source node['nginx']['config']
   owner node['gitlab']['user']
   mode 00644
 end
