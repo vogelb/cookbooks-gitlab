@@ -9,8 +9,6 @@
 include_recipe "apt"
 include_recipe "vagrant-ohai"
 
-node.set['gitlab_ci']['home'] = "/home/#{node['gitlab_ci']['user']}/gitlab_ci"
-
 # Install packages
 node['gitlab_ci']['gitlab_ci_packages'].each do |base_package|
   package base_package do

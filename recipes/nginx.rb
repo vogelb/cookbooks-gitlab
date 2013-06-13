@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 template "#{node['gitlab']['home']}/lib/support/nginx/gitlab" do
-  source "nginx-available-gitlab-plus-ci.erb"
+  source node['ngingx']['config']
   owner node['gitlab']['user']
   mode 00644
 end

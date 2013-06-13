@@ -7,4 +7,4 @@
 # All rights reserved - Do Not Redistribute
 include_recipe "gitlab::gitlab"
 include_recipe "gitlab::gitlab-ci"
-include_recipe "gitlab::gitlab-nginx"
+include_recipe "gitlab::nginx"

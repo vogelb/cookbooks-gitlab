@@ -68,6 +68,13 @@ Vagrant::Config.run do |config|
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = "./cookbooks"
     chef.add_recipe "gitlab"
+    chef.json = {
+      :mysql => {
+          :server_root_password => "nonrandompasswordsaregreattoo"
+          :server_debian_password => "nonrandompasswordsaregreattoo"
+          :server_repl_password => "nonrandompasswordsaregreattoo"
+      }
+    }
   end
 
 
