@@ -1,5 +1,5 @@
 {
-  "sha": "2da7d59d711a53c6c133e3961679abe1c2d6e7ae",
+  "sha": "94f7a9531702b66eb246e3f15a25ffadd7ce5126",
   "sources": {
     "rvm": {
       "locked_version": "0.9.0",
@@ -12,8 +12,6 @@
       "ref": "8cc7fec0770ab519cfdc02dce33fcdec8e5dd187"
     },
     "gitlab": {
-      "locked_version": "0.1.0",
-      "constraint": "= 0.1.0",
       "path": "."
     },
     "java": {
