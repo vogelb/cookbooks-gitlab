@@ -24,18 +24,18 @@ node['gitlab_ci']['gitlab_ci_packages'].each do |base_package|
   end
 end
 
+mysql_database_user 'gitlab_ci' do
+  connection node['mysql']['connection']
+  password 'gitlab_ci'
+  action :create
+end
+
 # Create databases and users
 %w{ gitlab_ci_production }.each do |db|
   mysql_database "#{db}" do
     connection node['mysql']['connection']
     action :create
   end
-end
-
-mysql_database_user 'gitlab_ci' do
-  connection node['mysql']['connection']
-  password 'gitlab_ci'
-  action :create
 end
 
 # Grant all privelages on all databases/tables from localhost to vagrant
@@ -88,6 +88,9 @@ end
 template "#{node['gitlab_ci']['home']}/config/database.yml" do
   source "database-mysql.yml.erb"
   owner node['gitlab_ci']['user']
+  variables({
+    :database => 'gitlab_ci_production'
+  })
   mode 00644
 end
 
@@ -95,7 +98,7 @@ execute "Configure DB" do
   user node['gitlab_ci']['user']
   cwd node['gitlab_ci']['home']
   environment ({'HOME' => node['gitlab_ci']['home']})
-  command "bundle exec rake db:setup RAILS_ENV=production"
+  command "bundle exec rake db:setup RAILS_ENV=production force=yes"
   action :run
 end
 
@@ -103,7 +106,7 @@ execute "Setup Schedules" do
   user node['gitlab_ci']['user']
   cwd node['gitlab_ci']['home']
   environment ({'HOME' => node['gitlab_ci']['home']})
-  command "bundle exec whenever -w RAILS_ENV=production"
+  command "bundle exec whenever -w RAILS_ENV=production force=yes"
   action :run
 end
 

@@ -32,7 +32,7 @@ mysql_database_user node['mysql']['gitlab_user'] do
 end
 
 # Create databases and users
-%w{ gitlabhq_production gitlabhq_development gitlabhq_test }.each do |db|
+%w{ gitlabhq_production }.each do |db|
   mysql_database "#{db}" do
     connection node['mysql']['connection']
     action :create
@@ -103,6 +103,9 @@ end
 template "#{node['gitlab']['home']}/config/database.yml" do
   source "database-mysql.yml.erb"
   owner node['gitlab']['user']
+  variables({
+    :database => 'gitlabhq_production'
+  })
   mode 00644
 end
 
