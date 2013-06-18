@@ -88,7 +88,7 @@ Vagrant::configure("2") do |config|
       when :vbox
         configure_provider(:virtualbox, sample_app_config, vbox_config("gitlab", "33.33.33.10", 3096))
       when :aws
-        configure_provider(:aws, sample_app_config, aws_config("m1.small"))
+        configure_provider(:aws, sample_app_config, aws_config("m1.medium"))
       when :esx
         configure_provider(:managed, sample_app_config, esx_config("192.168.200.225"))
       end
