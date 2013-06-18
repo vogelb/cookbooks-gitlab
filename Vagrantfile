@@ -72,10 +72,13 @@ Vagrant::configure("2") do |config|
     depend 'vagrant-managed-servers', '0.1.0'
     depend 'vagrant-omnibus', '1.0.2'
     depend 'vagrant-cachier', '0.1.0'
+    depend 'vagrant-berkshelf', '1.2.0'
   end
 
   # the Chef version to use
   config.omnibus.chef_version = "11.4.4"
+  # enable berkshelf plugin
+  config.berkshelf.enabled = true
 
   # define a separate VMs for the 3 providers (vbox, aws, managed)
   # because with Vagrant 1.2.2 you can run a VM with only one provider at once
@@ -96,7 +99,6 @@ Vagrant::configure("2") do |config|
       end
       
       sample_app_config.vm.provision :chef_solo do |chef|
-        chef.cookbooks_path = "./cookbooks"
         if provider == :vbox
           chef.add_recipe "gitlab::gitlab-vagrant"
         end
