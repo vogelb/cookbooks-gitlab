@@ -67,10 +67,12 @@ end
 Vagrant::configure("2") do |config|
 
   # Plugin
-  config.plugin.depend 'vagrant-aws', '0.2.2.rsyncfix'
-  config.plugin.depend 'vagrant-managed-servers', '0.1.0'
-  config.plugin.depend 'vagrant-omnibus', '1.0.2'
-  config.plugin.depend 'vagrant-cachier', '0.1.0'
+  config.plugin.deps do
+    depend 'vagrant-aws', '0.2.2.rsyncfix'
+    depend 'vagrant-managed-servers', '0.1.0'
+    depend 'vagrant-omnibus', '1.0.2'
+    depend 'vagrant-cachier', '0.1.0'
+  end
 
   # the Chef version to use
   config.omnibus.chef_version = "11.4.4"
