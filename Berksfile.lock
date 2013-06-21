@@ -1,50 +1,54 @@
 {
-  "sha": "94f7a9531702b66eb246e3f15a25ffadd7ce5126",
+  "sha": "de436c28fe7af1e2fc5bce6ec4325b910373921f",
   "sources": {
     "rvm": {
       "locked_version": "0.9.0",
-      "git": "git://github.com/fnichol/chef-rvm.git",
+      "git": "https://github.com/fnichol/chef-rvm",
       "ref": "4a408e5d6c5a52c37388a799c516430263339849"
     },
     "vagrant-ohai": {
-      "locked_version": "1.0.1",
-      "git": "git://github.com/tknerr/cookbooks-vagrant-ohai.git",
-      "ref": "8cc7fec0770ab519cfdc02dce33fcdec8e5dd187"
+      "locked_version": "1.0.0",
+      "git": "https://github.com/tknerr/cookbooks-vagrant-ohai",
+      "ref": "7c8cc0475a1ac74f4c2b683a7627c086dd36429d"
     },
     "gitlab": {
       "path": "."
     },
     "java": {
-      "locked_version": "1.11.4"
+      "locked_version": "1.11.6"
     },
     "windows": {
-      "locked_version": "1.9.0"
+      "locked_version": "1.10.0"
     },
     "chef_handler": {
       "locked_version": "1.1.4"
     },
     "apt": {
-      "locked_version": "2.0.0"
+      "locked_version": "2.0.0",
+      "constraint": "= 2.0.0"
+    },
+    "aws": {
+      "locked_version": "0.101.2",
+      "constraint": "= 0.101.2"
+    },
+    "build-essential": {
+      "locked_version": "1.4.0",
+      "constraint": "= 1.4.0"
+    },
+    "database": {
+      "locked_version": "1.4.0",
+      "constraint": "= 1.4.0"
     },
     "mysql": {
-      "locked_version": "3.0.2"
+      "locked_version": "3.0.2",
+      "constraint": ">= 1.3.0"
     },
     "openssl": {
       "locked_version": "1.0.2"
     },
-    "build-essential": {
-      "locked_version": "1.4.0",
-      "constraint": "> 1.1.0"
-    },
-    "database": {
-      "locked_version": "1.4.0"
-    },
     "postgresql": {
       "locked_version": "3.0.2",
       "constraint": ">= 1.0.0"
-    },
-    "aws": {
-      "locked_version": "0.101.2"
     },
     "xfs": {
       "locked_version": "1.1.0"
