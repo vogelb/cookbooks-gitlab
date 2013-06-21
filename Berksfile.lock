@@ -1,24 +1,24 @@
 {
-  "sha": "94f7a9531702b66eb246e3f15a25ffadd7ce5126",
+  "sha": "011330b928e358e79b01e8466055f4a10b7a9ff3",
   "sources": {
     "rvm": {
       "locked_version": "0.9.0",
-      "git": "git://github.com/fnichol/chef-rvm.git",
+      "git": "https://github.com/fnichol/chef-rvm",
       "ref": "4a408e5d6c5a52c37388a799c516430263339849"
     },
     "vagrant-ohai": {
       "locked_version": "1.0.1",
-      "git": "git://github.com/tknerr/cookbooks-vagrant-ohai.git",
+      "git": "https://github.com/tknerr/cookbooks-vagrant-ohai",
       "ref": "8cc7fec0770ab519cfdc02dce33fcdec8e5dd187"
     },
     "gitlab": {
       "path": "."
     },
     "java": {
-      "locked_version": "1.11.4"
+      "locked_version": "1.11.6"
     },
     "windows": {
-      "locked_version": "1.9.0"
+      "locked_version": "1.10.0"
     },
     "chef_handler": {
       "locked_version": "1.1.4"
