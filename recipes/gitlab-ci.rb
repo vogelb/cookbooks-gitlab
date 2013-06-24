@@ -11,6 +11,7 @@ user node['gitlab_ci']['user'] do
   comment 'GitLab'
   home "/home/#{node['gitlab_ci']['user']}"
   shell '/bin/false'
+  gid node['gitlab_ci']['group']
   supports :manage_home => true, :non_unique => false
   action :create
 end
@@ -48,6 +49,7 @@ end
 # Checkout gitlab-ci
 git 'get gitlab-ci' do
   user node['gitlab_ci']['user']
+  group node['gitlab_ci']['group']
   destination node['gitlab_ci']['home']
   repository "https://github.com/gitlabhq/gitlab-ci.git"
   reference "2-2-stable"
@@ -57,6 +59,7 @@ end
 [ "#{node['gitlab_ci']['home']}/tmp", "#{node['gitlab_ci']['home']}/tmp/pids", "#{node['gitlab_ci']['home']}/tmp/cache", "#{node['gitlab_ci']['home']}/tmp/sockets", "#{node['gitlab_ci']['home']}/public" ].each do |folder|
   directory "#{folder}" do
     owner node['gitlab_ci']['user']
+    group node['gitlab_ci']['group']
     mode 00755
     recursive true
     action :create
@@ -72,6 +75,7 @@ end
 
 execute "Install Dependencies" do
   user node['gitlab_ci']['user']
+  group node['gitlab_ci']['group']
   cwd node['gitlab_ci']['home']
   command "bundle install --deployment --without development test postgres"
   action :run
@@ -81,6 +85,7 @@ end
 template "#{node['gitlab_ci']['home']}/config/puma.rb" do
   source "gitlab_ci-puma.erb"
   owner node['gitlab_ci']['user']
+  group node['gitlab_ci']['group']
   mode 00644
 end
 
@@ -88,6 +93,7 @@ end
 template "#{node['gitlab_ci']['home']}/config/database.yml" do
   source "database-mysql.yml.erb"
   owner node['gitlab_ci']['user']
+  group node['gitlab_ci']['group']
   variables({
     :database => 'gitlab_ci_production'
   })
@@ -96,6 +102,7 @@ end
 
 execute "Configure DB" do
   user node['gitlab_ci']['user']
+  group node['gitlab_ci']['group']
   cwd node['gitlab_ci']['home']
   environment ({'HOME' => node['gitlab_ci']['home']})
   command "bundle exec rake db:setup RAILS_ENV=production force=yes"
@@ -104,6 +111,7 @@ end
 
 execute "Setup Schedules" do
   user node['gitlab_ci']['user']
+  group node['gitlab_ci']['group']
   cwd node['gitlab_ci']['home']
   environment ({'HOME' => node['gitlab_ci']['home']})
   command "bundle exec whenever -w RAILS_ENV=production force=yes"
@@ -114,6 +122,7 @@ end
 template "#{node['gitlab_ci']['home']}/config/resque.yml" do
   source "gitlab_ci-resque.yml.erb"
   owner node['gitlab_ci']['user']
+  group node['gitlab_ci']['group']
   mode 00644
 end
 
@@ -121,6 +130,7 @@ end
 template "/etc/init.d/gitlab_ci" do
   source "gitlab_ci-init.erb"
   owner node['gitlab_ci']['user']
+  group node['gitlab_ci']['group']
   mode 00647
 end
 
