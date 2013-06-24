@@ -146,13 +146,6 @@ ruby_block "Copy init script" do
   not_if { File.exist?("/etc/init.d/gitlab")}
 end
 
-execute "info_gitlabhq" do
-  user node['gitlab']['user']
-  cwd node['gitlab']['home']
-  command "bundle exec rake gitlab:env:info RAILS_ENV=production force=yes"
-  action :run
-end
-
 # update-rc.d gitlab defaults 21
 service "gitlab" do
  supports :status => true, :restart => true, :reload => true
