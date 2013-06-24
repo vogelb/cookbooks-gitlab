@@ -11,7 +11,7 @@ http_settings:
 
 # Repositories path
 # REPOS_PATH MUST NOT BE A SYMLINK!!!
-repos_path: "<%= node['gitlab']['home'] %>/repositories"
+repos_path: "/home/<%= node['gitlab']['user'] %>/repositories"
 
 # File used as authorized_keys for gitlab user
 auth_file: "<%= node['gitlab']['home'] %>/.ssh/authorized_keys"
