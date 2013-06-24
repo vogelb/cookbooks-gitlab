@@ -11,10 +11,14 @@ user node['gitlab_ci']['user'] do
   comment 'GitLab'
   home "/home/#{node['gitlab_ci']['user']}"
   shell '/bin/false'
-  gid node['gitlab_ci']['group']
   supports :manage_home => true, :non_unique => false
   action :create
 end
+# ..and add it to the group
+group node['gitlab_ci']['group'] do
+  members node['gitlab_ci']['user']
+end
+
 
 include_recipe "gitlab::gitlab-commons"
 
