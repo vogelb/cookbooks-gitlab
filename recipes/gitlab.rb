@@ -50,6 +50,7 @@ end
 # Checkout gitlab-shell
 git 'gitlab-shell' do
   user node['gitlab']['user']
+  group node['gitlab']['group']
   destination "/home/#{node['gitlab']['user']}/gitlab-shell"
   repository "https://github.com/gitlabhq/gitlab-shell.git"
   reference "v1.4.0"
