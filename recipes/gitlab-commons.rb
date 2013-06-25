@@ -12,6 +12,29 @@ node.set['rvm']['branch'] = 'none'
 node.set['rvm']['version'] = '1.17.10'
 include_recipe "rvm::system"
 
+# install newer version of git via ppa
+apt_repository "git-core-ppa" do
+  uri "http://ppa.launchpad.net/git-core/ppa/ubuntu"
+  distribution node['lsb']['codename']
+  components ["main"]
+  keyserver "hkp://keyserver.ubuntu.com:80"
+  key "E1DF1F24"
+end.run_action(:add)
+
+package "git" do
+  version '1.8.3.1-1'
+  action :upgrade
+end
+
+# configure git client
+execute "configure-git-user" do
+  command <<-EOF
+    sudo -u git -H git config --global user.name  "GitLab"
+    sudo -u git -H git config --global user.email "gitlab@#{node['ipaddress']}"
+    EOF
+  not_if 'sudo -u git -H git config --global --get user.email'
+end
+
 # Install MySQL
 node.set['mysql']['gitlab_user'] = "gitlab"
 node.set['mysql']['gitlab_password'] = "gitlab"
