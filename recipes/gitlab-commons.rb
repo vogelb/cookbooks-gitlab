@@ -7,10 +7,17 @@
 # All rights reserved - Do Not Redistribute
 include_recipe "apt"
 
-# Install Ruby
-node.set['rvm']['branch'] = 'none'
-node.set['rvm']['version'] = '1.17.10'
-include_recipe "rvm::system"
+# uninstall Ruby 1.8
+package "ruby1.8" do
+  action :remove
+end
+
+# install Ruby 1.9
+%w{ ruby1.9.1 ruby1.9.1-dev ri1.9.1 libruby1.9.1 }.each do |pkg|
+  package pkg do
+    action :install
+  end
+end
 
 # Install MySQL
 node.set['mysql']['gitlab_user'] = "gitlab"
