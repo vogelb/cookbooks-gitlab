@@ -16,7 +16,6 @@ production: &base
   gitlab:
     ## Web server settings
     host: <%= node['ipaddress'] %>
-    port: 8080
     https: false
     # Uncomment and customize to run in non-root path
     # Note that ENV['RAILS_RELATIVE_URL_ROOT'] in config/puma.rb may need to be changed

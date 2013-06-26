@@ -11,7 +11,7 @@ def vbox_config(name, ip, memory_size = 384)
   lambda do |vbox, override|
     # override box url
     override.vm.box = "opscode_ubuntu-12.04_provisionerless"
-    override.vm.box_url = "https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box"
+    override.vm.box_url = "https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box"
     # configure host-only network
     override.vm.hostname = "#{name}.local"
     override.vm.network :private_network, ip: ip

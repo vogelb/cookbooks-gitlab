@@ -15,6 +15,7 @@ end
 template "#{node['gitlab']['home']}/lib/support/nginx/gitlab" do
   source node['nginx']['config']
   owner node['gitlab']['user']
+  group node['gitlab']['group']
   mode 00644
 end
 
@@ -30,6 +31,7 @@ end
 template "#{node['gitlab']['home']}/public/index.html" do
   source "home.html.erb"
   owner node['gitlab']['user']
+  group node['gitlab']['group']
   mode 00644
 end
 

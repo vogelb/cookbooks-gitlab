@@ -1,8 +1,8 @@
 # GitLab user. git by default
-user: git
+user: <%= node['gitlab']['user'] %>
 
 # Url to gitlab instance. Used for api calls. Should be ends with slash.
-gitlab_url: "http://<%= node['ipaddress'] %>/"
+gitlab_url: "http://<%= node['ipaddress'] %>/gitlab/"
 
 http_settings:
 #  user: someone
@@ -11,10 +11,10 @@ http_settings:
 
 # Repositories path
 # REPOS_PATH MUST NOT BE A SYMLINK!!!
-repos_path: "/home/git/repositories"
+repos_path: "/home/<%= node['gitlab']['user'] %>/repositories"
 
 # File used as authorized_keys for gitlab user
-auth_file: "/home/git/.ssh/authorized_keys"
+auth_file: "/home/<%= node['gitlab']['user'] %>/.ssh/authorized_keys"
 
 # Redis settings used for pushing commit notices to gitlab
 redis:
@@ -23,4 +23,16 @@ redis:
   port: 6379
   # socket: /tmp/redis.socket # Only define this if you want to use sockets
   namespace: resque:gitlab
+
+# Log file.
+# Default is gitlab-shell.log in the root directory.
+# log_file: "/home/git/gitlab-shell/gitlab-shell.log"
+
+# Log level. INFO by default
+log_level: DEBUG
+
+# Audit usernames.
+# Set to true to see real usernames in the logs instead of key ids, which is easier to follow, but
+# incurs an extra API call on every gitlab-shell command.
+audit_usernames: false
 

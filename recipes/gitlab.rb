@@ -14,6 +14,10 @@ user node['gitlab']['user'] do
   supports :manage_home => true, :non_unique => false
   action :create
 end
+# ..and add it to the group
+group node['gitlab']['group'] do
+  members node['gitlab']['user']
+end
 
 include_recipe "gitlab::gitlab-commons"
 
@@ -49,30 +53,35 @@ end
 # Checkout gitlab-shell
 git 'gitlab-shell' do
   user node['gitlab']['user']
+  group node['gitlab']['group']
   destination "/home/#{node['gitlab']['user']}/gitlab-shell"
   repository "https://github.com/gitlabhq/gitlab-shell.git"
-  reference "v1.4.0"
+  reference "v1.5.0"
   action :checkout
 end
 
 template "/home/#{node['gitlab']['user']}/gitlab-shell/config.yml" do
   source "gitlab-shell-config.yml.erb"
   owner node['gitlab']['user']
+  group node['gitlab']['group']
   mode 00644
 end
 
 execute "install_gitlab" do
   user node['gitlab']['user']
+  group node['gitlab']['group']
   command "/home/#{node['gitlab']['user']}/gitlab-shell/bin/install"
   action :run
+  not_if { File.exists?("/home/#{node['gitlab']['user']}/repositories") }
 end
 
 # Checkout gitlabhq
 git 'gitlab-hq' do
   user node['gitlab']['user']
+  group node['gitlab']['group']
   destination node['gitlab']['home']
   repository "https://github.com/gitlabhq/gitlabhq"
-  reference "5-2-stable"
+  reference "v5.3.0"
   action :checkout
 end
 
@@ -80,12 +89,14 @@ end
 template "#{node['gitlab']['home']}/config/gitlab.yml" do
   source "gitlab-hq-config.yml.erb"
   owner node['gitlab']['user']
+  group node['gitlab']['group']
   mode 00644
 end
 
 [ "/home/#{node['gitlab']['user']}/gitlab-satellites",  "#{node['gitlab']['home']}/tmp/pids",  "#{node['gitlab']['home']}/tmp/sockets", "#{node['gitlab']['home']}/public/uploads"].each do |folder|
   directory "#{folder}" do
     owner node['gitlab']['user']
+    group node['gitlab']['group']
     mode 00755
     recursive true
     action :create
@@ -96,6 +107,7 @@ end
 template "#{node['gitlab']['home']}/config/puma.rb" do
   source "gitlab-puma.erb"
   owner node['gitlab']['user']
+  group node['gitlab']['group']
   mode 00644
 end
 
@@ -103,6 +115,7 @@ end
 template "#{node['gitlab']['home']}/config/database.yml" do
   source "database-mysql.yml.erb"
   owner node['gitlab']['user']
+  group node['gitlab']['group']
   variables({
     :database => 'gitlabhq_production'
   })
@@ -121,16 +134,20 @@ end
 
 execute "install_gitlabhq" do
   user node['gitlab']['user']
+  group node['gitlab']['group']
   cwd node['gitlab']['home']
   command "bundle install --deployment --without development test postgres"
   action :run
+  not_if { File.exists?("#{node['gitlab']['home']}/vendor/bundle") }
 end
 
 execute "setup_gitlabhq" do
   user node['gitlab']['user']
+  group node['gitlab']['group']
   cwd node['gitlab']['home']
-  command "bundle exec rake gitlab:setup RAILS_ENV=production force=yes"
+  command "bundle exec rake gitlab:setup RAILS_ENV=production force=yes && touch .gitlab-setup"
   action :run
+  not_if { File.exists?("#{node['gitlab']['home']}/.gitlab-setup") }
 end
 
 # cp lib/support/init.d/gitlab /etc/init.d/gitlab
@@ -141,13 +158,6 @@ ruby_block "Copy init script" do
     ::FileUtils.chmod "u+x", "/etc/init.d/gitlab"
   end
   not_if { File.exist?("/etc/init.d/gitlab")}
-end
-
-execute "info_gitlabhq" do
-  user node['gitlab']['user']
-  cwd node['gitlab']['home']
-  command "bundle exec rake gitlab:env:info RAILS_ENV=production force=yes"
-  action :run
 end
 
 # update-rc.d gitlab defaults 21
