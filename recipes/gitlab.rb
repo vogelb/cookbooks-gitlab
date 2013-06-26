@@ -56,7 +56,7 @@ git 'gitlab-shell' do
   group node['gitlab']['group']
   destination "/home/#{node['gitlab']['user']}/gitlab-shell"
   repository "https://github.com/gitlabhq/gitlab-shell.git"
-  reference "v1.4.0"
+  reference "v1.5.0"
   action :checkout
 end
 
@@ -81,7 +81,7 @@ git 'gitlab-hq' do
   group node['gitlab']['group']
   destination node['gitlab']['home']
   repository "https://github.com/gitlabhq/gitlabhq"
-  reference "5-2-stable"
+  reference "v5.3.0"
   action :checkout
 end
 
