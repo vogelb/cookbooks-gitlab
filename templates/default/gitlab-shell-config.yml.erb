@@ -1,8 +1,8 @@
 # GitLab user. git by default
-user: git
+user: <%= node['gitlab']['user'] %>
 
 # Url to gitlab instance. Used for api calls. Should be ends with slash.
-gitlab_url: "http://<%= node['ipaddress'] %>/"
+gitlab_url: "http://<%= node['ipaddress'] %>/gitlab/"
 
 http_settings:
 #  user: someone
@@ -11,10 +11,10 @@ http_settings:
 
 # Repositories path
 # REPOS_PATH MUST NOT BE A SYMLINK!!!
-repos_path: "/home/git/repositories"
+repos_path: "/home/<%= node['gitlab']['user'] %>/repositories"
 
 # File used as authorized_keys for gitlab user
-auth_file: "/home/git/.ssh/authorized_keys"
+auth_file: "/home/<%= node['gitlab']['user'] %>/.ssh/authorized_keys"
 
 # Redis settings used for pushing commit notices to gitlab
 redis:
