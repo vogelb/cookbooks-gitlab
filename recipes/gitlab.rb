@@ -65,6 +65,7 @@ execute "install_gitlab" do
   user node['gitlab']['user']
   command "/home/#{node['gitlab']['user']}/gitlab-shell/bin/install"
   action :run
+  not_if { File.exists?("/home/#{node['gitlab']['user']}/repositories") }
 end
 
 # Checkout gitlabhq
@@ -124,13 +125,15 @@ execute "install_gitlabhq" do
   cwd node['gitlab']['home']
   command "bundle install --deployment --without development test postgres"
   action :run
+  not_if { File.exists?("#{node['gitlab']['home']}/vendor/bundle") }
 end
 
 execute "setup_gitlabhq" do
   user node['gitlab']['user']
   cwd node['gitlab']['home']
-  command "bundle exec rake gitlab:setup RAILS_ENV=production force=yes"
+  command "bundle exec rake gitlab:setup RAILS_ENV=production force=yes && touch .gitlab-setup"
   action :run
+  not_if { File.exists?("#{node['gitlab']['home']}/.gitlab-setup") }
 end
 
 # cp lib/support/init.d/gitlab /etc/init.d/gitlab
@@ -141,13 +144,6 @@ ruby_block "Copy init script" do
     ::FileUtils.chmod "u+x", "/etc/init.d/gitlab"
   end
   not_if { File.exist?("/etc/init.d/gitlab")}
-end
-
-execute "info_gitlabhq" do
-  user node['gitlab']['user']
-  cwd node['gitlab']['home']
-  command "bundle exec rake gitlab:env:info RAILS_ENV=production force=yes"
-  action :run
 end
 
 # update-rc.d gitlab defaults 21

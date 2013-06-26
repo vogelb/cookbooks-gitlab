@@ -75,6 +75,7 @@ execute "Install Dependencies" do
   cwd node['gitlab_ci']['home']
   command "bundle install --deployment --without development test postgres"
   action :run
+  not_if { File.exists?("#{node['gitlab_ci']['home']}/vendor/bundle") }
 end
 
 # Copy default Puma config
@@ -98,16 +99,18 @@ execute "Configure DB" do
   user node['gitlab_ci']['user']
   cwd node['gitlab_ci']['home']
   environment ({'HOME' => node['gitlab_ci']['home']})
-  command "bundle exec rake db:setup RAILS_ENV=production force=yes"
+  command "bundle exec rake db:setup RAILS_ENV=production force=yes && touch .gitlab_ci-setup"
   action :run
+  not_if { File.exists?("#{node['gitlab_ci']['home']}/.gitlab_ci-setup") }
 end
 
 execute "Setup Schedules" do
   user node['gitlab_ci']['user']
   cwd node['gitlab_ci']['home']
   environment ({'HOME' => node['gitlab_ci']['home']})
-  command "bundle exec whenever -w RAILS_ENV=production force=yes"
+  command "bundle exec whenever -w RAILS_ENV=production force=yes && touch .gitlab_ci-whenever"
   action :run
+  not_if { File.exists?("#{node['gitlab_ci']['home']}/.gitlab_ci-whenever") }
 end
 
 # Install resque config
