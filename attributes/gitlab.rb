@@ -2,6 +2,7 @@
 
 # Gitlab user and home
 node.default['gitlab']['user'] = 'git'
+node.default['gitlab']['group'] = 'git'
 node.default['gitlab']['home'] = "/home/#{node['gitlab']['user']}/gitlab"
 
 # Dependencies
