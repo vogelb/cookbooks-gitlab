@@ -15,7 +15,7 @@ production: &base
   ## GitLab settings
   gitlab:
     ## Web server settings
-    host: <%= node['ipaddress'] %>
+    host: <%= node['fqdn'] %>
     https: false
     # Uncomment and customize to run in non-root path
     # Note that ENV['RAILS_RELATIVE_URL_ROOT'] in config/puma.rb may need to be changed
@@ -26,7 +26,7 @@ production: &base
 
     ## Email settings
     # Email address used in the "From" field in mails sent by GitLab
-    email_from: gitlab@<%= node['ipaddress'] %>
+    email_from: gitlab@<%= node['fqdn'] %>
 
     # Email address of your support contact (default: same as email_from)
     support_email: support@localhost
