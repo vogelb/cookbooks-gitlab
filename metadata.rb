@@ -6,15 +6,20 @@ description      'Installs/Configures gitlab'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.1'
 
+#
+# direct dependencies
+#
 depends 'apt', '2.0.0'
-depends 'aws', '0.101.2'
-depends 'build-essential', '1.4.0'
-depends 'chef_handler', '1.1.4'
-depends 'database', '1.4.0'
-depends 'java', '1.11.6'
 depends 'mysql', '3.0.2'
-depends 'openssl', '1.0.2'
 depends 'postgresql', '3.0.2'
 depends 'vagrant-ohai', '1.0.0'
-depends 'windows', '1.10.0'
+depends 'database', '1.4.0'
+depends 'postfix', '2.1.6'
+
+#
+# transitive, berkshelf-managed dependencies
+#
+depends 'aws', '0.101.2'
+depends 'build-essential', '1.4.0'
+depends 'openssl', '1.0.2'
 depends 'xfs', '1.1.0'
