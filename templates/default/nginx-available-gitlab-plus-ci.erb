@@ -11,8 +11,8 @@ upstream gitlab_ci {
 }
 
 server {
-  listen <%= node['ipaddress'] %>:80;         # e.g., listen 192.168.1.1:80; In most cases *:80 is a good idea
-  server_name gitlab;     # e.g., server_name source.example.com;
+  listen *:80;         # e.g., listen 192.168.1.1:80; In most cases *:80 is a good idea
+  server_name <%= node['fqdn'] %>;     # e.g., server_name source.example.com;
   root <%= node['gitlab']['home'] %>/public;
 
   # individual nginx logs for this gitlab vhost
