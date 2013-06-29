@@ -10,7 +10,7 @@
 user node['gitlab_ci']['user'] do
   comment 'GitLab'
   home "/home/#{node['gitlab_ci']['user']}"
-  shell '/bin/false'
+  shell '/bin/bash'
   supports :manage_home => true, :non_unique => false
   action :create
 end
