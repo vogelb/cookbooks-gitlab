@@ -28,6 +28,11 @@ link "/etc/nginx/sites-enabled/gitlab" do
   to "/etc/nginx/sites-available/gitlab"
 end
 
+# disable default site
+link "/etc/nginx/sites-enabled/default" do
+  action :delete
+end
+
 template "#{node['gitlab']['home']}/public/index.html" do
   source "home.html.erb"
   owner node['gitlab']['user']
