@@ -66,15 +66,6 @@ end
 #
 Vagrant::configure("2") do |config|
 
-  # Plugin
-  config.plugin.deps do
-    depend 'vagrant-aws', '0.2.2.rsyncfix'
-    depend 'vagrant-managed-servers', '0.1.0'
-    depend 'vagrant-omnibus', '1.1.0'
-    depend 'vagrant-cachier', '0.1.0'
-    depend 'vagrant-berkshelf', '1.3.2'
-  end
-
   # the Chef version to use
   config.omnibus.chef_version = "11.4.4"
   # enable berkshelf plugin
