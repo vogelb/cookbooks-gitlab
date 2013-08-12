@@ -95,6 +95,11 @@ Vagrant::configure("2") do |config|
         end
         chef.add_recipe "gitlab"
         chef.json = {
+          :gitlab_ci => {
+            :extensions => {
+              :lxc => true
+            }
+          },
           :mysql => {
               :server_root_password => "nonrandompasswordsaregreattoo",
               :server_debian_password => "nonrandompasswordsaregreattoo",
