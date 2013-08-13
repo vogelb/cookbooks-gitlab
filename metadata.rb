@@ -15,6 +15,7 @@ depends 'postgresql', '3.0.2'
 depends 'vagrant-ohai', '1.0.0'
 depends 'database', '1.4.0'
 depends 'postfix', '2.1.6'
+depends 'vagrant', '0.2.0'
 
 #
 # transitive, berkshelf-managed dependencies

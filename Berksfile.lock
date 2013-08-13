@@ -34,6 +34,18 @@
     },
     "postfix": {
       "locked_version": "2.1.6"
+    },
+    "vagrant": {
+      "locked_version": "0.2.0"
+    },
+    "dmg": {
+      "locked_version": "1.1.0"
+    },
+    "windows": {
+      "locked_version": "1.10.0"
+    },
+    "chef_handler": {
+      "locked_version": "1.1.4"
     }
   }
 }

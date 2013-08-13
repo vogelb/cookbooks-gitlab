@@ -97,7 +97,8 @@ Vagrant::configure("2") do |config|
         chef.json = {
           :gitlab_ci => {
             :extensions => {
-              :lxc => true
+              :lxc => true,
+              :vagrant => true
             }
           },
           :mysql => {
